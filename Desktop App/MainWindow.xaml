@@ -1,0 +1,29 @@
+﻿<Window x:Class="TradingPostOverview.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TradingPostOverview"
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="Trading Post Overview" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="Database" >
+                <MenuItem Header="Import" Icon="{icons:BoxIcons Kind=RegularImport}" Click="MenuItemImport_Click"/>
+                <MenuItem Header="Export" Icon="{icons:BoxIcons Kind=RegularExport}" Click="MenuItemExport_Click"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="MenuItemExit_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Recipes">
+                <MenuItem Header="Add" Icon="{icons:BoxIcons Kind=RegularListPlus}"/>
+                <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}"/>
+            </MenuItem>
+
+        </Menu>
+
+
+    </StackPanel>
+
+</Window>
