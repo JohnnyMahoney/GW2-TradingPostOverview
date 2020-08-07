@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:TradingPostOverview"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Trading Post Overview" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Trading Post Overview" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        Name="WindowOverview"
+        Closing="MainWindow_Closing">
     <StackPanel>
         <Menu>
             <MenuItem Header="Database" >
@@ -21,7 +23,34 @@
                 <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}"/>
             </MenuItem>
 
+            <MenuItem Header="API Status" Click="APIStatus_Click"/>
+
         </Menu>
+        <Grid x:Name="ViewGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="2"/>
+
+            <TextBlock Text="Recipe" HorizontalAlignment="Center"/>
+
+            <ListView x:Name="listView_Watchlist" 
+                      ItemsSource="{Binding ElementName=WindowOverview, Path=Watchlist}"
+                      DisplayMemberPath="Name"
+                      Grid.Row="1"
+                      VerticalAlignment="Stretch"
+                      BorderThickness="0"/>
+
+
+        </Grid>
 
 
     </StackPanel>

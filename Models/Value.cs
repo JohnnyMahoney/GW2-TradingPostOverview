@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TradingPostOverview
+namespace Models
 {
-    class Value
+    public class Value
     {
         public int Gold { get; set; }
         public int Silver { get; set; }

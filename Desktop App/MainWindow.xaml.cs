@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
+using Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,17 +24,33 @@ namespace TradingPostOverview
     /// </summary>
     public partial class MainWindow : Window
     {
-        string dbFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools";
-        string dbName = "MyTradingPostData.db";
+        static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools";
+        string dbFilePath = toolsFolderPath + "\\MyTradingPostData.db";
+        string settingsFilePath = toolsFolderPath + "\\Settings.xml";
+        public Settings UserSettings { get; private set; } = new Settings();
+
+        public ObservableCollection<Item> Watchlist { get; set; } = new ObservableCollection<Item>();
+
         public MainWindow()
         {
-            if (!Directory.Exists(dbFolderPath))
-            {
-                Directory.CreateDirectory(dbFolderPath);
-            }
-            DB_Handling.Helper.ImportDB(dbFolderPath, dbName);
-            
             InitializeComponent();
+
+            if (!Directory.Exists(toolsFolderPath))
+            {
+                Directory.CreateDirectory(toolsFolderPath);
+            }
+            DB_Handling.Helper.ImportDB(toolsFolderPath, dbFilePath);
+
+            if (File.Exists(settingsFilePath))
+            {
+                //UserSettings = UserSettings.Load(settingsFilePath);
+                //ApplySettings();
+            }
+
+            TestFillList();
+
+
+            //LoadSettings();
         }
 
         #region MenuLogic
@@ -69,5 +87,33 @@ namespace TradingPostOverview
 
         #endregion
 
+
+        void TestFillList()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Watchlist.Add(new Item() { Name = i.ToString() });
+            }
+            //listView_Watchlist.ItemsSource = Watchlist;
+            //listView_Watchlist.DisplayMemberPath = "Name";
+        }
+
+        void ApplySettings()
+        {
+            ViewGrid.ColumnDefinitions[0].Width = new GridLength(UserSettings.WatchListWidth);
+            ViewGrid.ColumnDefinitions[2].Width = new GridLength(UserSettings.DetailsListWidth);
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            UserSettings.WatchListWidth = ViewGrid.ColumnDefinitions[0].ActualWidth;
+            UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[2].ActualWidth;
+            UserSettings.Save(settingsFilePath);
+        }
+
+        private void APIStatus_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
