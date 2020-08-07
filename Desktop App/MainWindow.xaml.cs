@@ -24,7 +24,7 @@ namespace TradingPostOverview
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools";
+        static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview";
         string dbFilePath = toolsFolderPath + "\\MyTradingPostData.db";
         string settingsFilePath = toolsFolderPath + "\\Settings.xml";
         public Settings UserSettings { get; private set; } = new Settings();
@@ -47,7 +47,7 @@ namespace TradingPostOverview
                 //ApplySettings();
             }
 
-            TestFillList();
+            TestGetItems();
 
 
             //LoadSettings();
@@ -87,15 +87,13 @@ namespace TradingPostOverview
 
         #endregion
 
-
-        void TestFillList()
+        async void TestGetItems()
         {
-            for (int i = 0; i < 5; i++)
+            var test = new List<int>() { 28445, 12452, 93567, 70010, 29169, 29181 };
+            foreach(int id in test)
             {
-                Watchlist.Add(new Item() { Name = i.ToString() });
+                Watchlist.Add(await API.Request.GetItem(id));
             }
-            //listView_Watchlist.ItemsSource = Watchlist;
-            //listView_Watchlist.DisplayMemberPath = "Name";
         }
 
         void ApplySettings()
@@ -114,6 +112,11 @@ namespace TradingPostOverview
         private void APIStatus_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void TestAPI_Click(object sender, RoutedEventArgs e)
+        {
+            var test = await API.Request.GetItem(93567);
         }
     }
 }
