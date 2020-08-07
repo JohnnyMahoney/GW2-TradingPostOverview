@@ -11,3 +11,7 @@ ___
   2. later milestones
      - calculate current estimated crafting price
      - highlight profitable items
+
+___
+
+**Important note:** The purpose of this project is to learn the basics of SQLite and dotnet core in a WPF applicatoion.
