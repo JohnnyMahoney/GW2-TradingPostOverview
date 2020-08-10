@@ -42,7 +42,6 @@
             <GroupBox Header="Recipe" Margin="5,2,1,5">
                 <ListBox x:Name="listView_Watchlist" 
                       ItemsSource="{Binding ElementName=WindowOverview, Path=Watchlist}"
-                      SelectedIndex="0"
                       Grid.Row="2"
                       VerticalAlignment="Stretch"
                       BorderThickness="0"
@@ -58,7 +57,7 @@
                 </ListBox>
             </GroupBox>
 
-            <GroupBox Grid.Column="1" Header="{Binding ElementName=listView_Watchlist, Path=SelectedItem.Name}" Padding="5" Margin="1,2,5,5" HeaderStringFormat="Details: {0}">
+            <GroupBox Grid.Column="1" Header="{Binding ElementName=listView_Watchlist, Path=SelectedItem.Name, FallbackValue=''}" Padding="5" Margin="1,2,5,5" HeaderStringFormat="Details: {0}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
