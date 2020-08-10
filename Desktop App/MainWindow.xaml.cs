@@ -99,13 +99,13 @@ namespace TradingPostOverview
         void ApplySettings()
         {
             ViewGrid.ColumnDefinitions[0].Width = new GridLength(UserSettings.WatchListWidth);
-            ViewGrid.ColumnDefinitions[2].Width = new GridLength(UserSettings.DetailsListWidth);
+            ViewGrid.ColumnDefinitions[1].Width = new GridLength(UserSettings.DetailsListWidth);
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             UserSettings.WatchListWidth = ViewGrid.ColumnDefinitions[0].ActualWidth;
-            UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[2].ActualWidth;
+            UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[1].ActualWidth;
             UserSettings.Save(settingsFilePath);
         }
 

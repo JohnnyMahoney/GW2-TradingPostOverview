@@ -17,7 +17,7 @@ namespace Models
         {
             using (StreamReader sr = new StreamReader(filePath))
             {
-                XmlSerializer xmls = new XmlSerializer(typeof(Settings));
+                XmlSerializer xmls = new XmlSerializer(typeof(Settings)); //TODO: Besser JSON?
                 return xmls.Deserialize(sr) as Settings;
             }
         }
@@ -26,7 +26,7 @@ namespace Models
         {
             using (StreamWriter sw = new StreamWriter(filePath))
             {
-                XmlSerializer xmls = new XmlSerializer(typeof(Settings));
+                XmlSerializer xmls = new XmlSerializer(typeof(Settings)); // TODO: Besser JSON?
                 xmls.Serialize(sw, this);
             }
         }

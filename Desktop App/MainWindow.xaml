@@ -37,31 +37,26 @@
         <Grid x:Name="ViewGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="3"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="3"/>
-
-            <TextBlock Text="Recipe" HorizontalAlignment="Center"/>
-
-            <ListView x:Name="listView_Watchlist" 
+            <GroupBox Header="Recipe" Padding="5" Margin="5,2,1,5">
+                <ListBox x:Name="listView_Watchlist" 
                       ItemsSource="{Binding ElementName=WindowOverview, Path=Watchlist}"
                       DisplayMemberPath="Name"
                       SelectedIndex="0"
                       Grid.Row="2"
                       VerticalAlignment="Stretch"
-                      BorderThickness="0"/>
+                      BorderThickness="0"
+                     SelectionMode="Single"/>
+            </GroupBox>
 
-            <plots:PlotView Grid.Row="2" Grid.Column="2" Model="{Binding ElementName=listView_Watchlist.SelectedItem, Path=SellHistoryModel}">
-                
-            </plots:PlotView>
+            <GroupBox Grid.Column="1" Header="{Binding ElementName=listView_Watchlist, Path=SelectedItem.Name}" Padding="5" Margin="1,2,5,5" HeaderStringFormat="Details: {0}">
+                <plots:PlotView Grid.Row="2" Grid.Column="2" Model="{Binding ElementName=listView_Watchlist, Path=SelectedItem.SellHistoryModel}">
+
+                </plots:PlotView>
+            </GroupBox>
+
 
 
         </Grid>
