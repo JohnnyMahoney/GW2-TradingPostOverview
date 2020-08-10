@@ -94,6 +94,10 @@ namespace TradingPostOverview
             {
                 Watchlist.Add(await API.Request.GetItem(id));
             }
+            foreach (var item in Watchlist)
+            {
+                API.Request.SetPrices(item);
+            }
         }
 
         void ApplySettings()
@@ -111,12 +115,9 @@ namespace TradingPostOverview
 
         private void APIStatus_Click(object sender, RoutedEventArgs e)
         {
-
+            var test = (Item)listView_Watchlist.SelectedItem;
+            System.Diagnostics.Debug.WriteLine(test.CurrentValue.CurrentSellOrder.ToString());
         }
 
-        private async void TestAPI_Click(object sender, RoutedEventArgs e)
-        {
-            var test = await API.Request.GetItem(93567);
-        }
     }
 }

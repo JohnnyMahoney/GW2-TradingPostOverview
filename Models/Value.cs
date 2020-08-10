@@ -1,42 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Models
 {
     public class Value
     {
-        public int Gold { get; set; }
-        public int Silver { get; set; }
-        public int Copper { get; set; }
+        [JsonPropertyName("buys")]
+        public Price CurrentBuyOrder { get; set; }
+        [JsonPropertyName("sells")]
+        public Price CurrentSellOrder { get; set; }
+    }
 
-        public Value()
-        {
+}
+public class Price
+{
+    public int unit_price { get; set; }
+    public int quantity { get; set; }
 
-        }
-        public Value(int copper)
-        {
-            Copper = copper;
-        }
-        public Value(int silver, int copper) : this(copper)
-        {
-            Silver = silver;
-        }
-        public Value(int gold, int silver, int copper) : this(silver, copper)
-        {
-            Gold = gold;
-        }
-        public Value(double value)
-        {
-            Gold = (int)value / 100;
-            Silver = (int)value % 100;
-            Copper = (int)(value - Math.Truncate(value)) * 100;
-        }
-
-
-        public override string ToString()
-        {
-            return $"{Gold}g {Silver}s {Copper}c";
-        }
+    public override string ToString()
+    {
+        int g = unit_price / 10000;
+        int s = unit_price / 100 - g * 100;
+        int c = unit_price - s * 100 - g * 10000;
+        return $"{g}g {s}s {c}c";
     }
 }
