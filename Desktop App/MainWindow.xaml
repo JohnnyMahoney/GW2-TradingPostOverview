@@ -33,6 +33,8 @@
 
         </Menu>
 
+        <ProgressBar Name="progressBar" HorizontalAlignment="Right" IsIndeterminate="True" Width="50" Margin="5,5" Visibility="Hidden"/>
+
         <Grid x:Name="ViewGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

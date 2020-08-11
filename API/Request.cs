@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using Models;
+using System.Text;
 
 namespace API
 {
@@ -23,7 +24,7 @@ namespace API
                 {
                     return JsonSerializer.Deserialize<Item>(
                         response.Content.ReadAsStringAsync().Result,
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }); ;
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                 }
                 else
                 {
@@ -54,9 +55,37 @@ namespace API
                 }
             }
         }
-        public static async void SetPrices(Item item)
+        public static async Task SetPrices(Item item)
         {
             item.CurrentValue = await GetValue(item.ID);
+        }
+        public static async Task<string> GetApiStatus()
+        {
+            StringBuilder sb = new StringBuilder();
+            using (HttpClient cl = new HttpClient())
+            {
+                cl.BaseAddress = new Uri("https://api.guildwars2.com/");
+                cl.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                List<string> apiNames = new List<string>() { "items", "recipes", "commerce/prices" };
+
+                foreach (var apiName in apiNames)
+                {
+                    HttpResponseMessage response = await Task.Run(() => cl.GetAsync($"/v2/{apiName}").Result);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        sb.AppendLine($"{apiName.ToUpper()} API online.");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                        sb.AppendLine($"{apiName.ToUpper()} API down.");
+                    }
+                }
+            }
+            return sb.ToString();
+
         }
     }
 }

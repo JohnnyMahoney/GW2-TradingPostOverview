@@ -12,7 +12,5 @@ namespace Models
         public string Icon { get; set; }
         public Model SellHistoryModel { get; set; }
         public Value CurrentValue { get; set; }
-        //public Value CurrentValue { get { return new Value(API.Request.GetCurrentValue(ID)); } }
-
     }
 }

@@ -49,7 +49,6 @@ namespace TradingPostOverview
 
             TestGetItems();
 
-
             //LoadSettings();
         }
 
@@ -89,34 +88,38 @@ namespace TradingPostOverview
 
         async void TestGetItems()
         {
-            var test = new List<int>() { 28445, 12452, 93567, 70010, 29169, 29181 };
-            foreach(int id in test)
+            progressBar.Visibility = Visibility.Visible;
+
+            var testItems = new List<int>() { 28445, 12452, 93567, 70010, 29169, 29181 };
+
+            foreach (var itemID in testItems)
             {
-                Watchlist.Add(await API.Request.GetItem(id));
+                Item item = await API.Request.GetItem(itemID);
+                await API.Request.SetPrices(item);
+                Watchlist.Add(item);
             }
-            foreach (var item in Watchlist)
-            {
-                API.Request.SetPrices(item);
-            }
+
+            progressBar.Visibility = Visibility.Hidden;
         }
 
         void ApplySettings()
         {
-            ViewGrid.ColumnDefinitions[0].Width = new GridLength(UserSettings.WatchListWidth);
-            ViewGrid.ColumnDefinitions[1].Width = new GridLength(UserSettings.DetailsListWidth);
+            //ViewGrid.ColumnDefinitions[0].Width = new GridLength(UserSettings.WatchListWidth);
+            //ViewGrid.ColumnDefinitions[1].Width = new GridLength(UserSettings.DetailsListWidth);
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UserSettings.WatchListWidth = ViewGrid.ColumnDefinitions[0].ActualWidth;
-            UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[1].ActualWidth;
-            UserSettings.Save(settingsFilePath);
+            //UserSettings.WatchListWidth = ViewGrid.ColumnDefinitions[0].ActualWidth;
+            //UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[1].ActualWidth;
+            //UserSettings.Save(settingsFilePath);
         }
 
-        private void APIStatus_Click(object sender, RoutedEventArgs e)
+        private async void APIStatus_Click(object sender, RoutedEventArgs e)
         {
-            var test = (Item)listView_Watchlist.SelectedItem;
-            System.Diagnostics.Debug.WriteLine(test.CurrentValue.CurrentSellOrder.ToString());
+            progressBar.Visibility = Visibility.Visible;
+            MessageBox.Show(await API.Request.GetApiStatus(), "API Staus");
+            progressBar.Visibility = Visibility.Hidden;
         }
 
     }
