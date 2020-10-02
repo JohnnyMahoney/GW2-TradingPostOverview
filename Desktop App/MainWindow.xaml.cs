@@ -26,8 +26,6 @@ namespace TradingPostOverview
     {
         static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview";
         string dbFilePath = toolsFolderPath + "\\MyTradingPostData.db";
-        string settingsFilePath = toolsFolderPath + "\\Settings.xml";
-        public Settings UserSettings { get; private set; } = new Settings();
 
         public ObservableCollection<Item> Watchlist { get; set; } = new ObservableCollection<Item>();
 
@@ -41,15 +39,7 @@ namespace TradingPostOverview
             }
             DB_Handling.Helper.ImportDB(toolsFolderPath, dbFilePath);
 
-            if (File.Exists(settingsFilePath))
-            {
-                //UserSettings = UserSettings.Load(settingsFilePath);
-                //ApplySettings();
-            }
-
             TestGetItems();
-
-            //LoadSettings();
         }
 
         #region MenuLogic
@@ -102,17 +92,9 @@ namespace TradingPostOverview
             progressBar.Visibility = Visibility.Hidden;
         }
 
-        void ApplySettings()
-        {
-            //ViewGrid.ColumnDefinitions[0].Width = new GridLength(UserSettings.WatchListWidth);
-            //ViewGrid.ColumnDefinitions[1].Width = new GridLength(UserSettings.DetailsListWidth);
-        }
-
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //UserSettings.WatchListWidth = ViewGrid.ColumnDefinitions[0].ActualWidth;
-            //UserSettings.DetailsListWidth = ViewGrid.ColumnDefinitions[1].ActualWidth;
-            //UserSettings.Save(settingsFilePath);
+            // TODO: Write DB on closing?!
         }
 
         private async void APIStatus_Click(object sender, RoutedEventArgs e)
