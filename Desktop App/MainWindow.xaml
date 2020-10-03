@@ -25,8 +25,8 @@
             </MenuItem>
 
             <MenuItem Header="Recipes">
-                <MenuItem Header="Add" Icon="{icons:BoxIcons Kind=RegularListPlus}"/>
-                <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}"/>
+                <MenuItem Header="Add" Icon="{icons:BoxIcons Kind=RegularListPlus}" Click="MenuItemAdd_Click"/>
+                <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}" Click="MenuItemRemove_Click"/>
             </MenuItem>
 
             <MenuItem Header="API Status" Click="APIStatus_Click"/>

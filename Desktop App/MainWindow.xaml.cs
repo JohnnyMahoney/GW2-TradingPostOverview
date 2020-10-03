@@ -3,6 +3,7 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,22 +25,20 @@ namespace TradingPostOverview
     /// </summary>
     public partial class MainWindow : Window
     {
+#if DEBUG
+        static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview-DEBUG";
+#else
         static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview";
-        string dbFilePath = toolsFolderPath + "\\MyTradingPostData.db";
+#endif
+        static string dbFilePath = toolsFolderPath + "\\Records.db";
 
         public ObservableCollection<Item> Watchlist { get; set; } = new ObservableCollection<Item>();
 
         public MainWindow()
         {
             InitializeComponent();
-
-            if (!Directory.Exists(toolsFolderPath))
-            {
-                Directory.CreateDirectory(toolsFolderPath);
-            }
-            DB_Handling.Helper.ImportDB(toolsFolderPath, dbFilePath);
-
-            TestGetItems();
+            InitSelf();
+            LoadDB();
         }
 
         #region MenuLogic
@@ -55,7 +54,6 @@ namespace TradingPostOverview
                 // TODO: Import Database
             }
         }
-
         private void MenuItemExport_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
@@ -68,16 +66,23 @@ namespace TradingPostOverview
                 // TODO: Export Database
             }
         }
-
         private void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
-        #endregion
-
-        async void TestGetItems()
+        private async void APIStatus_Click(object sender, RoutedEventArgs e)
         {
+            progressBar.Visibility = Visibility.Visible;
+            MessageBox.Show(await API.Request.GetApiStatus(), "API Staus");
+            progressBar.Visibility = Visibility.Hidden;
+        }
+        private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private async void MenuItemAdd_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder
             progressBar.Visibility = Visibility.Visible;
 
             var testItems = new List<int>() { 28445, 12452, 93567, 70010, 29169, 29181 };
@@ -86,23 +91,40 @@ namespace TradingPostOverview
             {
                 Item item = await API.Request.GetItem(itemID);
                 await API.Request.SetPrices(item);
+                DataAccess.WriteDB(item, dbFilePath);
                 Watchlist.Add(item);
             }
 
             progressBar.Visibility = Visibility.Hidden;
-        }
 
+        }
+        #endregion
+
+        #region Functions
+        void InitSelf()
+        {
+            if (!Directory.Exists(toolsFolderPath))
+            {
+                Directory.CreateDirectory(toolsFolderPath);
+            }
+            if (!File.Exists(dbFilePath))
+            {
+                File.Copy(".\\Records.db", dbFilePath);
+            }
+
+        }
+        void LoadDB()
+        {
+            var items = DataAccess.LoadDB(dbFilePath);
+            foreach (var item in items)
+            {
+                Watchlist.Add(item);
+            }
+        }
+        #endregion
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // TODO: Write DB on closing?!
         }
-
-        private async void APIStatus_Click(object sender, RoutedEventArgs e)
-        {
-            progressBar.Visibility = Visibility.Visible;
-            MessageBox.Show(await API.Request.GetApiStatus(), "API Staus");
-            progressBar.Visibility = Visibility.Hidden;
-        }
-
     }
 }

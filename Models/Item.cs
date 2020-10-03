@@ -1,5 +1,4 @@
-﻿using OxyPlot;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +9,6 @@ namespace Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Icon { get; set; }
-        public Model SellHistoryModel { get; set; }
         public Value CurrentValue { get; set; }
     }
 }

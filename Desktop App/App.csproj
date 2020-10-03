@@ -11,6 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Records.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Records.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.4.0" />
     <PackageReference Include="OxyPlot.Core" Version="2.0.0" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
@@ -18,8 +28,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
-    <ProjectReference Include="..\DB Handling\DB.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="REM if exist &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview&quot; rmdir /Q /S &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview&quot;&#xD;&#xA;" />
+  </Target>
 
 </Project>
