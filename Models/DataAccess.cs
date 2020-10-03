@@ -17,7 +17,8 @@ namespace Models
             string connectionString = $@"Data Source={dbFilePath};Version=3;";
             using (IDbConnection conn = new SQLiteConnection(connectionString))
             {
-                conn.Execute("insert into \"Items\" (ID, Name, Icon) values (@ID, @Name, @Icon)", item);
+                item.SetIconAsByteArray();
+                conn.Execute("insert into \"Items\" (ID, Name, Icon_byteArray, Icon) values (@ID, @Name, @Icon_byteArray, @Icon)", item);
             }
         }
         public static List<Item> LoadDB(string dbFilePath)

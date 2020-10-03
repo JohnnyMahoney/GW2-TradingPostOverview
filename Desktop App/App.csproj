@@ -8,6 +8,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,8 +32,8 @@
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="REM if exist &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview&quot; rmdir /Q /S &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview&quot;&#xD;&#xA;" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="REM if exist &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview-DEBUG&quot; rmdir /Q /S &quot;D:\Users\Dokumente\GUILD WARS 2\tools\TradingPostOverview-DEBUG&quot;&#xD;&#xA;" />
   </Target>
 
 </Project>

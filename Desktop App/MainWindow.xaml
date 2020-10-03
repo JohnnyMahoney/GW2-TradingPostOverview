@@ -51,7 +51,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Icon}" Width="15" Height="15" Margin="0,2,5,2" CacheMode="BitmapCache"/>
+                                <Image Source="{Binding Icon_byteArray}" Width="15" Height="15" Margin="0,2,5,2" CacheMode="BitmapCache"/>
                                 <TextBlock Text="{Binding Name}"/>
                             </StackPanel>
                         </DataTemplate>
@@ -74,9 +74,9 @@
 
                     <TextBlock Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentBuyOrder, StringFormat='Current buy price: {0}'}"/>
                     <TextBlock Grid.Column="1" Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentSellOrder, StringFormat='Current sell price: {0}'}"/>
-                    <plots:PlotView Grid.Row="1" Grid.ColumnSpan="3" Model="{Binding ElementName=listView_Watchlist, Path=SelectedItem.SellHistoryModel}">
+                    <!--<plots:PlotView Grid.Row="1" Grid.ColumnSpan="3" Model="{Binding ElementName=listView_Watchlist, Path=SelectedItem.SellHistoryModel}">
 
-                    </plots:PlotView>
+                    </plots:PlotView>-->
                 </Grid>
             </GroupBox>
 
