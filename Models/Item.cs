@@ -5,7 +5,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Models
 {
@@ -16,17 +18,14 @@ namespace Models
         public string Icon { get; set; }
         public byte[] Icon_byteArray { get; set; }
         public Value CurrentValue { get; set; }
-        public void SetIconAsByteArray()
+        public async Task SetIconAsByteArray()
         {
-            using (WebClient wc = new WebClient())
+            using (var client = new HttpClient())
             {
-                using (Stream s = wc.OpenRead(Icon))
+                var response = await client.GetAsync(Icon);
+                if (response.IsSuccessStatusCode)
                 {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        s.CopyTo(memoryStream);
-                        Icon_byteArray= memoryStream.ToArray();
-                    }
+                    Icon_byteArray = await response.Content.ReadAsByteArrayAsync();
                 }
             }
         }

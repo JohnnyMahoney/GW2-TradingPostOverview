@@ -78,11 +78,16 @@ namespace TradingPostOverview
         }
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO: Currently DEBUG functionality: Reset DB instead of remove an item
+            progressBar.Visibility = Visibility.Visible;
+            Watchlist.Clear();
+            File.Delete(dbFilePath);
+            InitSelf();
+            progressBar.Visibility = Visibility.Hidden;
         }
         private async void MenuItemAdd_Click(object sender, RoutedEventArgs e)
         {
-            // Placeholder
+            //TODO: Currently DEBUG functionality: Load hardcoded items instead of add an item via it's ID
             progressBar.Visibility = Visibility.Visible;
 
             var testItems = new List<int>() { 28445, 12452, 93567, 70010, 29169, 29181 };
@@ -90,6 +95,7 @@ namespace TradingPostOverview
             foreach (var itemID in testItems)
             {
                 Item item = await API.Request.GetItem(itemID);
+                await item.SetIconAsByteArray();
                 await API.Request.SetPrices(item);
                 DataAccess.WriteDB(item, dbFilePath);
                 Watchlist.Add(item);
@@ -124,7 +130,7 @@ namespace TradingPostOverview
         #endregion
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // TODO: Write DB on closing?!
+
         }
     }
 }
