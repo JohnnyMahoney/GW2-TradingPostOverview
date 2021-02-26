@@ -3,20 +3,8 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TradingPostOverview
 {
@@ -26,11 +14,11 @@ namespace TradingPostOverview
     public partial class MainWindow : Window
     {
 #if DEBUG
-        static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview-DEBUG";
+        private static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview-DEBUG";
 #else
         static string toolsFolderPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\GUILD WARS 2\tools\TradingPostOverview";
 #endif
-        static string dbFilePath = toolsFolderPath + "\\Records.db";
+        private static string dbFilePath = toolsFolderPath + "\\Records.db";
 
         public ObservableCollection<Item> Watchlist { get; set; } = new ObservableCollection<Item>();
 
@@ -42,6 +30,7 @@ namespace TradingPostOverview
         }
 
         #region MenuLogic
+
         private void MenuItemImport_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -54,6 +43,7 @@ namespace TradingPostOverview
                 // TODO: Import Database
             }
         }
+
         private void MenuItemExport_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
@@ -66,16 +56,19 @@ namespace TradingPostOverview
                 // TODO: Export Database
             }
         }
+
         private void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
         private async void APIStatus_Click(object sender, RoutedEventArgs e)
         {
             progressBar.Visibility = Visibility.Visible;
             MessageBox.Show(await API.Request.GetApiStatus(), "API Staus");
             progressBar.Visibility = Visibility.Hidden;
         }
+
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Currently DEBUG functionality: Reset DB instead of remove an item
@@ -85,6 +78,7 @@ namespace TradingPostOverview
             InitSelf();
             progressBar.Visibility = Visibility.Hidden;
         }
+
         private async void MenuItemAdd_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Currently DEBUG functionality: Load hardcoded items instead of add an item via it's ID
@@ -102,12 +96,13 @@ namespace TradingPostOverview
             }
 
             progressBar.Visibility = Visibility.Hidden;
-
         }
-        #endregion
+
+        #endregion MenuLogic
 
         #region Functions
-        void InitSelf()
+
+        private void InitSelf()
         {
             if (!Directory.Exists(toolsFolderPath))
             {
@@ -117,9 +112,9 @@ namespace TradingPostOverview
             {
                 File.Copy(".\\Records.db", dbFilePath);
             }
-
         }
-        void LoadDB()
+
+        private void LoadDB()
         {
             var items = DataAccess.LoadDB(dbFilePath);
             foreach (var item in items)
@@ -127,10 +122,11 @@ namespace TradingPostOverview
                 Watchlist.Add(item);
             }
         }
-        #endregion
+
+        #endregion Functions
+
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
         }
     }
 }

@@ -12,37 +12,36 @@
         Closing="MainWindow_Closing">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition/>
+            <RowDefinition Height="20" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Menu>
-            <MenuItem Header="Database" >
-                <MenuItem Header="Import" Icon="{icons:BoxIcons Kind=RegularImport}" Click="MenuItemImport_Click"/>
-                <MenuItem Header="Export" Icon="{icons:BoxIcons Kind=RegularExport}" Click="MenuItemExport_Click"/>
-                <Separator/>
-                <MenuItem Header="Exit" Click="MenuItemExit_Click"/>
+            <MenuItem Header="Database">
+                <MenuItem Header="Import" Icon="{icons:BoxIcons Kind=RegularImport}" Click="MenuItemImport_Click" />
+                <MenuItem Header="Export" Icon="{icons:BoxIcons Kind=RegularExport}" Click="MenuItemExport_Click" />
+                <Separator />
+                <MenuItem Header="Exit" Click="MenuItemExit_Click" />
             </MenuItem>
 
             <MenuItem Header="Recipes">
-                <MenuItem Header="Add" Icon="{icons:BoxIcons Kind=RegularListPlus}" Click="MenuItemAdd_Click"/>
-                <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}" Click="MenuItemRemove_Click"/>
+                <MenuItem Header="Add" Icon="{icons:BoxIcons Kind=RegularListPlus}" Click="MenuItemAdd_Click" />
+                <MenuItem Header="Remove" Icon="{icons:BoxIcons Kind=RegularListMinus}" Click="MenuItemRemove_Click" />
             </MenuItem>
 
-            <MenuItem Header="API Status" Click="APIStatus_Click"/>
-
+            <MenuItem Header="API Status" Click="APIStatus_Click" />
         </Menu>
 
-        <ProgressBar Name="progressBar" HorizontalAlignment="Right" IsIndeterminate="True" Width="50" Margin="5,5" Visibility="Hidden"/>
+        <ProgressBar Name="progressBar" HorizontalAlignment="Right" IsIndeterminate="True" Width="50" Margin="5,5" Visibility="Hidden" />
 
         <Grid x:Name="ViewGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
             <GroupBox Header="Recipe" Margin="5,2,1,5">
-                <ListBox x:Name="listView_Watchlist" 
+                <ListBox x:Name="listView_Watchlist"
                       ItemsSource="{Binding ElementName=WindowOverview, Path=Watchlist}"
                       Grid.Row="2"
                       VerticalAlignment="Stretch"
@@ -51,8 +50,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Icon_byteArray}" Width="15" Height="15" Margin="0,2,5,2" CacheMode="BitmapCache"/>
-                                <TextBlock Text="{Binding Name}"/>
+                                <Image Source="{Binding Icon_byteArray}" Width="15" Height="15" Margin="0,2,5,2" CacheMode="BitmapCache" />
+                                <TextBlock Text="{Binding Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -62,28 +61,22 @@
             <GroupBox Grid.Column="1" Header="{Binding ElementName=listView_Watchlist, Path=SelectedItem.Name, FallbackValue=''}" Padding="5" Margin="1,2,5,5" HeaderStringFormat="Details: {0}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentBuyOrder, StringFormat='Current buy price: {0}'}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentSellOrder, StringFormat='Current sell price: {0}'}"/>
+                    <TextBlock Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentBuyOrder, StringFormat='Current buy price: {0}'}" />
+                    <TextBlock Grid.Column="1" Text="{Binding ElementName=listView_Watchlist, Path=SelectedItem.CurrentValue.CurrentSellOrder, StringFormat='Current sell price: {0}'}" />
                     <!--<plots:PlotView Grid.Row="1" Grid.ColumnSpan="3" Model="{Binding ElementName=listView_Watchlist, Path=SelectedItem.SellHistoryModel}">
-
                     </plots:PlotView>-->
                 </Grid>
             </GroupBox>
-
-
-
         </Grid>
-
     </Grid>
-
 </Window>

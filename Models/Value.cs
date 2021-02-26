@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Models
 {
@@ -9,15 +6,16 @@ namespace Models
     {
         [JsonPropertyName("buys")]
         public Price CurrentBuyOrder { get; set; }
+
         [JsonPropertyName("sells")]
         public Price CurrentSellOrder { get; set; }
     }
-
 }
+
 public class Price
 {
-    public int unit_price { get; set; }
     public int quantity { get; set; }
+    public int unit_price { get; set; }
 
     public override string ToString()
     {
